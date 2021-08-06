@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>MyMachine - Barata</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <link rel="icon" href="https://www.vippng.com/png/full/8-80252_internet-png-samsung-internet-icon.png" type="image/x-icon">
+
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+
+    <div id="1">
+
+        <div class="ui secondary pointing menu">
+            <a class="item" href="">
+              Home
+            </a>
+        </div>
+
+        <div class="ui grid">
+            <div class="ten wide column">
+                <div class="row">
+                    <p class="ui header" style="margin-left: 25px;">1 Hari Terakhir</p>
+                    <div class="ui segment" style="margin-left: 25px;">
+                        <canvas id="myPieChart" height="50 vh" style="margin-bottom: 20px;"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="ui header" style="margin-left: 25px; margin-top:10px;">4 Menit Terakhir</p>
+                    <div class="ui segment" style="margin-left: 25px;">
+                        <table class="ui celled table">
+                            <thead>
+                                <tr>
+                                    <th>Nama Mesin</th>
+                                    <th>Lampu 1</th>
+                                    <th>Lampu 2</th>
+                                    <th>Status</th>
+                                    <th>Waktu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for j in listi:%}
+                                <tr>
+                                    <td>{{j[0]}}</td>
+                                    <td>{{j[1]}}</td>
+                                    <td>{{j[2]}}</td>
+                                    {%if j[3] == 0:%}
+                                    <td class="negative">Mati</td>
+                                    {%elif j[3] == 1:%}
+                                    <td class="warning">Idle</td>
+                                    {%else:%}
+                                    <td class="positive">Menyala</td>
+                                    {%endif%}
+                                    <td>{{j[4]}}</td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="ui header" style="margin-left: 25px; margin-top:10px">20 Menit Terakhir</p>
+                    <div class="ui segment" style="margin-left: 25px;">
+                        <canvas id="myChart" height="60vh" style="margin-left: 10px; margin-top: 20px; margin-right: 20px; padding-right:25px; "></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="six wide column">
+                <div class="ui segment" style="margin-right: 25px;  margin-top: 35px;">
+                    <div class="ui card" style="width: 700px;">
+                        <div class="image">
+                            <img src="/static/lc.png">
+                        </div>
+                        <div class="content">
+                            <a class="header">Nama Mesin : {{side[0]}}</a>
+                            <div class="meta">
+                                <span class="date">Lokasi Mesin : {{side[1]}}</span>
+                            </div>
+                            <div class="description">
+                                Waktu : {{side[2]}}
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            <a>
+                                <i class="industry icon"></i> Status Aktual: {{side[3]}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: ['{{a[0]}}', '{{a[1]}}', '{{a[2]}}', '{{a[3]}}', '{{a[4]}}', '{{a[5]}}', '{{a[6]}}', '{{a[7]}}', '{{a[8]}}', '{{a[9]}}', '{{a[10]}}', '{{a[11]}}', '{{a[12]}}', '{{a[13]}}', '{{a[14]}}', '{{a[15]}}', '{{a[16]}}', '{{a[17]}}', '{{a[18]}}', '{{a[19]}}'],
+                datasets: [{
+                    label: 'Status Mesin (0 = Mati, 1 = Idle, 2 = Menyala)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ['{{b[0]}}', '{{b[1]}}', '{{b[2]}}', '{{b[3]}}', '{{b[4]}}', '{{b[5]}}', '{{b[6]}}', '{{b[7]}}', '{{b[8]}}', '{{b[9]}}', '{{b[10]}}', '{{b[11]}}', '{{b[12]}}', '{{b[13]}}', '{{b[14]}}', '{{b[15]}}', '{{b[16]}}', '{{b[17]}}', '{{b[18]}}', '{{b[19]}}']
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
+
+
+        var ctxx = document.getElementById('myPieChart').getContext('2d');
+        var myDoughnutChart = new Chart(ctxx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: ['{{donnut[0]}}', '{{donnut[1]}}', '{{donnut[2]}}'],
+                    backgroundColor: ['rgb(222,56,148)', 'rgb(111,111,111)', 'rgb(58,212,6)']
+                }],
+
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: [
+                    'Mati',
+                    'Idle',
+                    'Menyala'
+                ]
+            },
+            options: {}
+        });
+    </script>
+
+</body>
+
+</html>
